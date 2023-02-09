@@ -1,10 +1,15 @@
 import math
 import os
+import pathlib
+import platform
 import sys
 from pathlib import Path
 
 import cv2
 from torchvision.transforms import ToTensor, CenterCrop
+plt = platform.system()
+if plt == 'Windows':
+    pathlib.PosixPath = pathlib.WindowsPath
 
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0].parent  # YOLOv5 root directory
