@@ -76,7 +76,6 @@ class Bone_Age:
         equalized_g = clahe.apply(g)
         equalized_b = clahe.apply(b)
         im = cv2.merge((equalized_r, equalized_g, equalized_b))
-        cv2.imshow("im", im)
         return im
 
     @staticmethod
