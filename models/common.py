@@ -5,7 +5,7 @@ import numpy as np
 import torch
 from torch import nn
 
-from yolov5.models.experimental import attempt_load
+from models.experimental import attempt_load
 
 
 def autopad(k, p=None, d=1):  # kernel, padding, dilation

@@ -20,11 +20,11 @@ if str(ROOT) not in sys.path:
 if platform.system() != 'Windows':
     ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
 
-from yolov5.models.common import *
-from yolov5.models.experimental import *
-from yolov5.utils.autoanchor import check_anchor_order
-from yolov5.utils.general import make_divisible
-from yolov5.utils.torch_utils import (fuse_conv_and_bn, initialize_weights, scale_img, time_sync)
+from models.common import *
+from models.experimental import *
+from utils.autoanchor import check_anchor_order
+from utils.general import make_divisible
+from utils.torch_utils import (fuse_conv_and_bn, initialize_weights, scale_img, time_sync)
 
 try:
     import thop  # for FLOPs computation

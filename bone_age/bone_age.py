@@ -17,9 +17,9 @@ import torch
 import torch.nn.functional as F
 import torchvision.transforms as T
 
-from yolov5.models.common import DetectMultiBackend
-from yolov5.utils.general import (check_img_size, non_max_suppression, scale_boxes)
-from yolov5.utils.torch_utils import select_device, smart_inference_mode
+from models.common import DetectMultiBackend
+from utils.general import (check_img_size, non_max_suppression, scale_boxes)
+from utils.torch_utils import select_device, smart_inference_mode
 
 IMAGENET_MEAN = 0.485, 0.456, 0.406  # RGB mean
 IMAGENET_STD = 0.229, 0.224, 0.225  # RGB standard deviation
