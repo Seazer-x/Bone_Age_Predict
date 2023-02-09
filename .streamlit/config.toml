@@ -1,3 +1,5 @@
 [theme]
-base="dark"
 font="monospace"
+[server]
+headless = true
+port = 8501
