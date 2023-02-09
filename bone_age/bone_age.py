@@ -27,7 +27,7 @@ IMAGENET_STD = 0.229, 0.224, 0.225  # RGB standard deviation
 
 class Bone_Age:
     def __init__(self, weights_path, model_name):
-        self.device = select_device("cuda:0")
+        self.device = torch.device("cpu")
         self.data = None
         self.half = False
         self.dnn = False
