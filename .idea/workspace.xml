@@ -5,25 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="871e5fc7-ec81-41dd-8350-b2c4d5b5bed4" name="Changes" comment="init commit">
-      <change beforePath="$PROJECT_DIR$/bone_age/DIP/weights/best.pt" beforeDir="false" afterPath="$PROJECT_DIR$/bone_age/DIP/weights/best.pt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bone_age/DIP/weights/last_nll.pt" beforeDir="false" afterPath="$PROJECT_DIR$/bone_age/DIP/weights/last_nll.pt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bone_age/DIPFirst/weights/best.pt" beforeDir="false" afterPath="$PROJECT_DIR$/bone_age/DIPFirst/weights/best.pt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bone_age/DIPFirst/weights/last_nll.pt" beforeDir="false" afterPath="$PROJECT_DIR$/bone_age/DIPFirst/weights/last_nll.pt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bone_age/MCP/weights/best.pt" beforeDir="false" afterPath="$PROJECT_DIR$/bone_age/MCP/weights/best.pt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bone_age/MCP/weights/last_nll.pt" beforeDir="false" afterPath="$PROJECT_DIR$/bone_age/MCP/weights/last_nll.pt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bone_age/MCPFirst/weights/best.pt" beforeDir="false" afterPath="$PROJECT_DIR$/bone_age/MCPFirst/weights/best.pt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bone_age/MCPFirst/weights/last_nll.pt" beforeDir="false" afterPath="$PROJECT_DIR$/bone_age/MCPFirst/weights/last_nll.pt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bone_age/MIP/weights/best.pt" beforeDir="false" afterPath="$PROJECT_DIR$/bone_age/MIP/weights/best.pt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bone_age/MIP/weights/last_nll.pt" beforeDir="false" afterPath="$PROJECT_DIR$/bone_age/MIP/weights/last_nll.pt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bone_age/PIP/weights/best.pt" beforeDir="false" afterPath="$PROJECT_DIR$/bone_age/PIP/weights/best.pt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bone_age/PIP/weights/last_nll.pt" beforeDir="false" afterPath="$PROJECT_DIR$/bone_age/PIP/weights/last_nll.pt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bone_age/PIPFirst/weights/best.pt" beforeDir="false" afterPath="$PROJECT_DIR$/bone_age/PIPFirst/weights/best.pt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bone_age/PIPFirst/weights/last_nll.pt" beforeDir="false" afterPath="$PROJECT_DIR$/bone_age/PIPFirst/weights/last_nll.pt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bone_age/Radius/weights/best.pt" beforeDir="false" afterPath="$PROJECT_DIR$/bone_age/Radius/weights/best.pt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bone_age/Radius/weights/last_nll.pt" beforeDir="false" afterPath="$PROJECT_DIR$/bone_age/Radius/weights/last_nll.pt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bone_age/Ulna/weights/best.pt" beforeDir="false" afterPath="$PROJECT_DIR$/bone_age/Ulna/weights/best.pt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bone_age/Ulna/weights/last_nll.pt" beforeDir="false" afterPath="$PROJECT_DIR$/bone_age/Ulna/weights/last_nll.pt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bone_age/bone_age.pt" beforeDir="false" afterPath="$PROJECT_DIR$/bone_age/bone_age.pt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,6 +32,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "E:/zhenshuAI",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -64,7 +48,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1675942388935</updated>
-      <workItem from="1675942390828" duration="5170000" />
+      <workItem from="1675942390828" duration="7163000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <created>1675942547636</created>
