@@ -1,15 +1,13 @@
 import math
 import os
 import pathlib
-import platform
 import sys
 from pathlib import Path
 
 import cv2
 from torchvision.transforms import ToTensor, CenterCrop
-plt = platform.system()
-if plt == 'Windows':
-    pathlib.PosixPath = pathlib.WindowsPath
+
+pathlib.PosixPath = pathlib.WindowsPath
 
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0].parent  # YOLOv5 root directory
@@ -24,7 +22,7 @@ import torchvision.transforms as T
 
 from models.common import DetectMultiBackend
 from utils.general import (check_img_size, non_max_suppression, scale_boxes)
-from utils.torch_utils import select_device, smart_inference_mode
+from utils.torch_utils import smart_inference_mode
 
 IMAGENET_MEAN = 0.485, 0.456, 0.406  # RGB mean
 IMAGENET_STD = 0.229, 0.224, 0.225  # RGB standard deviation
