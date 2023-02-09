@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="871e5fc7-ec81-41dd-8350-b2c4d5b5bed4" name="Changes" comment="init commit">
-      <change beforePath="$PROJECT_DIR$/Bone-pre.py" beforeDir="false" afterPath="$PROJECT_DIR$/Bone-pre.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bone_age/bone_age.py" beforeDir="false" afterPath="$PROJECT_DIR$/bone_age/bone_age.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +47,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1675942388935</updated>
-      <workItem from="1675942390828" duration="9035000" />
+      <workItem from="1675942390828" duration="9122000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <created>1675942547636</created>
