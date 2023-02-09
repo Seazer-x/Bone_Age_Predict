@@ -7,7 +7,7 @@ from pathlib import Path
 import cv2
 from torchvision.transforms import ToTensor, CenterCrop
 
-pathlib.PosixPath = pathlib.WindowsPath
+pathlib.WindowsPath = pathlib.PosixPath
 
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0].parent  # YOLOv5 root directory
