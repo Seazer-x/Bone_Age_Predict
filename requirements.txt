@@ -7,8 +7,8 @@ opencv-python-headless
 Pillow>=7.1.2
 psutil  # system resources
 thop>=0.1.1  # FLOPs computation
-torch>=1.13.0+cu116  # see https://pytorch.org/get-started/locally (recommended)
-torchvision>=0.12.1+cu116
+torch>=1.13.0  # see https://pytorch.org/get-started/locally (recommended)
+torchvision>=0.12.1
 tqdm>=4.64.0
 
 tensorboard>=2.4.1
