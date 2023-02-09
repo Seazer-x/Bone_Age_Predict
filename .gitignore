@@ -4,3 +4,4 @@
 /dataSources/
 /dataSources.local.xml
 *.pyc
+.idea

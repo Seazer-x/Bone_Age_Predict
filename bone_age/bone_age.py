@@ -5,6 +5,7 @@ import sys
 from pathlib import Path
 
 import cv2
+import streamlit
 from torchvision.transforms import ToTensor, CenterCrop
 
 pathlib.WindowsPath = pathlib.PosixPath
@@ -35,8 +36,16 @@ class Bone_Age:
         self.half = False
         self.dnn = False
         model_dict = zip(model_name, weights_path)
-        self.models = {key: DetectMultiBackend(v, device=self.device, dnn=self.dnn, data=self.data, fp16=self.half) for
-                       key, v in model_dict}
+        self.models = self.load_model_dict(model_dict)
+
+    @streamlit.cache
+    def load_model(self, weights_path):
+        return DetectMultiBackend(weights_path, device=self.device, dnn=self.dnn, data=self.data, fp16=self.half)
+
+    @streamlit.cache
+    def load_model_dict(self, dict_):
+        return {key: DetectMultiBackend(v, device=self.device, dnn=self.dnn, data=self.data, fp16=self.half) for
+                key, v in dict_}
 
     @staticmethod
     def letterbox(im, new_shape=(224, 224), color=(114, 114, 114), auto=True, scaleFill=False, scaleup=True, stride=32):
@@ -109,7 +118,8 @@ class Bone_Age:
             ):
         im = self.__hist_img(im)
         im0s = im.copy()
-        model = DetectMultiBackend(weights_path, device=self.device, dnn=self.dnn, data=self.data, fp16=self.half)
+
+        model = self.load_model(weights_path)
         stride, names = model.stride, model.names
         im = self.letterbox(im, (224, 224), stride=stride)
         im = im.transpose((2, 0, 1))[::-1]
