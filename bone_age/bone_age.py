@@ -242,12 +242,3 @@ class Bone_Age:
         pred = F.softmax(results, dim=1)
         top1i = pred[0].argsort(0, descending=True)[0].tolist()
         return top1i
-
-
-if __name__ == '__main__':
-    models = ["Radius", "Ulna", "MCPFirst", "MCP", "PIP", "PIPFirst", "MIP", "DIP", "DIPFirst"]
-    weights = list(map(lambda x: x + "/weights/best.pt", models))
-
-    Bone = Bone_Age(weights, models)
-    img = cv2.imread(r"E:\zhenshuAI\Project\bone_age\bon_xray\images\1548.png")
-    print(Bone.run(sex="boy", im=img))
