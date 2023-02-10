@@ -5,7 +5,7 @@ import sys
 from pathlib import Path
 
 import cv2
-import streamlit
+from streamlit import cache
 from torchvision.transforms import ToTensor, CenterCrop
 
 pathlib.WindowsPath = pathlib.PosixPath
@@ -38,11 +38,11 @@ class Bone_Age:
         model_dict = zip(model_name, weights_path)
         self.models = self.load_model_dict(model_dict)
 
-    @streamlit.cache
+    @cache
     def load_model(self, weights_path):
         return DetectMultiBackend(weights_path, device=self.device, dnn=self.dnn, data=self.data, fp16=self.half)
 
-    @streamlit.cache
+    @cache
     def load_model_dict(self, dict_):
         return {key: DetectMultiBackend(v, device=self.device, dnn=self.dnn, data=self.data, fp16=self.half) for
                 key, v in dict_}
