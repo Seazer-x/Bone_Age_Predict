@@ -23,7 +23,6 @@ import torchvision.transforms as T
 
 from models.common import DetectMultiBackend
 from utils.general import (check_img_size, non_max_suppression, scale_boxes)
-from utils.torch_utils import smart_inference_mode
 
 IMAGENET_MEAN = 0.485, 0.456, 0.406  # RGB mean
 IMAGENET_STD = 0.229, 0.224, 0.225  # RGB standard deviation
@@ -106,7 +105,7 @@ class Bone_Age:
                       math.pow(score, 10) * 9.78989966891478E-26
             return round(boneAge, 2)
 
-    @smart_inference_mode()
+    @torch.no_grad()
     def run(self,
             im: np.ndarray,
             weights_path="bone_age.pt",
@@ -236,7 +235,7 @@ class Bone_Age:
             results['Radius'], res_score['Radius'], sum_score, boneAge)
         return report, True
 
-    @smart_inference_mode()
+    @torch.no_grad()
     def classify(self,
                  model=None,
                  im=None,
