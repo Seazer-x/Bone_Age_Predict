@@ -2,13 +2,14 @@ import math
 import os
 import pathlib
 import sys
+import warnings
 from pathlib import Path
 
 import cv2
-from streamlit import cache
+from streamlit import cache_resource, cache_data
 from torchvision.transforms import ToTensor, CenterCrop
 
-pathlib.WindowsPath = pathlib.PosixPath
+# pathlib.WindowsPath = pathlib.PosixPath
 
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0].parent  # YOLOv5 root directory
@@ -28,23 +29,21 @@ IMAGENET_MEAN = 0.485, 0.456, 0.406  # RGB mean
 IMAGENET_STD = 0.229, 0.224, 0.225  # RGB standard deviation
 
 
+@cache_resource
+def load_model(weights_path):
+    return DetectMultiBackend(weights_path, device=torch.device("cpu"), dnn=False, data=None, fp16=False)
+
+
+@cache_resource
+def load_model_dict(model_dict):
+    return {key: DetectMultiBackend(v, device=torch.device("cpu"), dnn=False, data=None, fp16=False) for
+            key, v in model_dict}
+
+
 class Bone_Age:
     def __init__(self, weights_path, model_name):
-        self.device = torch.device("cpu")
-        self.data = None
-        self.half = False
-        self.dnn = False
         model_dict = zip(model_name, weights_path)
-        self.models = self.load_model_dict(model_dict)
-
-    @cache
-    def load_model(self, weights_path):
-        return DetectMultiBackend(weights_path, device=self.device, dnn=self.dnn, data=self.data, fp16=self.half)
-
-    @cache
-    def load_model_dict(self, dict_):
-        return {key: DetectMultiBackend(v, device=self.device, dnn=self.dnn, data=self.data, fp16=self.half) for
-                key, v in dict_}
+        self.models = load_model_dict(model_dict)
 
     @staticmethod
     def letterbox(im, new_shape=(224, 224), color=(114, 114, 114), auto=True, scaleFill=False, scaleup=True, stride=32):
@@ -118,7 +117,7 @@ class Bone_Age:
         im = self.__hist_img(im)
         im0s = im.copy()
 
-        model = self.load_model(weights_path)
+        model = load_model(weights_path)
         stride, names = model.stride, model.names
         im = self.letterbox(im, (224, 224), stride=stride)
         im = im.transpose((2, 0, 1))[::-1]
