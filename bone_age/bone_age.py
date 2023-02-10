@@ -2,14 +2,15 @@ import math
 import os
 import pathlib
 import sys
-import warnings
 from pathlib import Path
+import platform
 
 import cv2
-from streamlit import cache_resource, cache_data
+from streamlit import cache_resource
 from torchvision.transforms import ToTensor, CenterCrop
 
-# pathlib.WindowsPath = pathlib.PosixPath
+if platform.system() != "Windows":
+    pathlib.WindowsPath = pathlib.PosixPath
 
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0].parent  # YOLOv5 root directory
