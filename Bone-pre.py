@@ -30,6 +30,9 @@ with col2:
     st.subheader('Input a Image')
     uploaded_file = st.file_uploader("Choose a file", type=['png', 'jpg'], )
     if uploaded_file is not None:
+        if TITLE != "" and msg != "":
+            msg = ""
+            TITLE = ""
         file_bytes = np.asarray(bytearray(uploaded_file.read()), dtype=np.uint8)
         opencv_image = cv2.imdecode(file_bytes, 1)
         image_cv2 = cv2.cvtColor(opencv_image, cv2.COLOR_BGR2RGB)
