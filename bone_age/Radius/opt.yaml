@@ -1,7 +1,7 @@
 model: yolov5l-cls.pt
-data: E:\Dataset\arthrosis\Radius
-epochs: 200
-batch_size: 128
+data: E:/Dataset/arthrosis_xray/Radius
+epochs: 300
+batch_size: 64
 imgsz: 224
 nosave: false
 cache: null
