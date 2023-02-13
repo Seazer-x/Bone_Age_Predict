@@ -34,7 +34,7 @@ with col1:
 with col2:
     models = ["Radius", "Ulna", "MCPFirst", "MCP", "PIP",
               "PIPFirst", "MIP", "DIP", "DIPFirst"]
-    weights = list(map(lambda x: Path("./bone_age/" + x + "/weights/best.pt"), models))
+    weights = list(map(lambda x: Path("./bone_age/" + x + "/best.pt"), models))
     Bone = Bone_Age(weights, models)
     st.subheader('Input a Image')
     uploaded_file = st.file_uploader("Choose a file", type=['png', 'jpg'], )
