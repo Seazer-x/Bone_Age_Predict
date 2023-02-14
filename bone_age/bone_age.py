@@ -3,7 +3,7 @@ import pathlib
 import platform
 
 import cv2
-from streamlit import cache_resource, cache
+from streamlit import cache_resource
 from torchvision.transforms import ToTensor, Resize
 
 if platform.system() != "Windows":
@@ -21,7 +21,7 @@ IMAGENET_MEAN = 0.485, 0.456, 0.406  # RGB mean
 IMAGENET_STD = 0.229, 0.224, 0.225  # RGB standard deviation
 
 
-@cache
+@cache_resource
 def load_model(weights_path):
     return DetectMultiBackend(weights_path, device=torch.device("cpu"), dnn=False, data=None, fp16=False)
 
