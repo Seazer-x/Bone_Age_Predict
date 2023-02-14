@@ -193,7 +193,7 @@ class Bone_Age:
             class_model = self.models[model_name]
             box = scale_boxes(im.shape[2:], box, im0s.shape).round()
             im2class = im0s[int(box[1]):int(box[3]), int(box[0]):int(box[2]), :]
-            im2class = T.Compose([ToTensor(), Resize(224, 224), T.Normalize(IMAGENET_MEAN, IMAGENET_STD)])(
+            im2class = T.Compose([ToTensor(), Resize(224), T.Normalize(IMAGENET_MEAN, IMAGENET_STD)])(
                 im2class)
             level = self.classify(class_model, im2class)
             results[finger] = level
