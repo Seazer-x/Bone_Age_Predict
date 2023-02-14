@@ -1,22 +1,13 @@
 import math
-import os
 import pathlib
-import sys
-from pathlib import Path
 import platform
 
 import cv2
-from streamlit import cache_resource
-from torchvision.transforms import ToTensor, CenterCrop
+from streamlit import cache_resource, cache
+from torchvision.transforms import ToTensor, Resize
 
 if platform.system() != "Windows":
     pathlib.WindowsPath = pathlib.PosixPath
-
-FILE = Path(__file__).resolve()
-ROOT = FILE.parents[0].parent  # YOLOv5 root directory
-if str(ROOT) not in sys.path:
-    sys.path.append(str(ROOT))  # add ROOT to PATH
-ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
 
 import numpy as np
 import torch
@@ -24,13 +15,13 @@ import torch.nn.functional as F
 import torchvision.transforms as T
 
 from models.common import DetectMultiBackend
-from utils.general import (check_img_size, non_max_suppression, scale_boxes)
+from utils.general import (non_max_suppression, scale_boxes)
 
 IMAGENET_MEAN = 0.485, 0.456, 0.406  # RGB mean
 IMAGENET_STD = 0.229, 0.224, 0.225  # RGB standard deviation
 
 
-@cache_resource
+@cache
 def load_model(weights_path):
     return DetectMultiBackend(weights_path, device=torch.device("cpu"), dnn=False, data=None, fp16=False)
 
@@ -109,7 +100,6 @@ class Bone_Age:
     def run(self,
             im: np.ndarray,
             weights_path="bone_age.pt",
-            imgsz=(224, 224),
             conf_thres=0.6,
             iou_thres=0.25,
             max_det=1000,
@@ -123,9 +113,8 @@ class Bone_Age:
         im = self.letterbox(im, (224, 224), stride=stride)
         im = im.transpose((2, 0, 1))[::-1]
         im = np.ascontiguousarray(im)
-        imgsz = check_img_size(imgsz, s=stride)
 
-        model.warmup(imgsz=(1, 3, *imgsz))
+        model.warmup(imgsz=(1, 3, *(224, 224)))
         im = torch.from_numpy(im).to(model.device)
         im = im.half() if model.fp16 else im.float()
         im /= 255
@@ -204,7 +193,7 @@ class Bone_Age:
             class_model = self.models[model_name]
             box = scale_boxes(im.shape[2:], box, im0s.shape).round()
             im2class = im0s[int(box[1]):int(box[3]), int(box[0]):int(box[2]), :]
-            im2class = T.Compose([ToTensor(), CenterCrop(224), T.Normalize(IMAGENET_MEAN, IMAGENET_STD)])(
+            im2class = T.Compose([ToTensor(), Resize(224, 224), T.Normalize(IMAGENET_MEAN, IMAGENET_STD)])(
                 im2class)
             level = self.classify(class_model, im2class)
             results[finger] = level
@@ -239,16 +228,14 @@ class Bone_Age:
     def classify(self,
                  model=None,
                  im=None,
-                 imgsz=(224, 224),
                  ):
         stride, names = model.stride, model.names
-        imgsz = check_img_size(imgsz, s=stride)
         im = im.half() if model.fp16 else im.float()
         im = im.to(model.device)
         if len(im.shape) == 3:
             im = im[None]
 
-        model.warmup(imgsz=(1, 3, *imgsz))
+        model.warmup(imgsz=(1, 3, *(224, 224)))
         results = model(im)
         pred = F.softmax(results, dim=1)
         top1i = pred[0].argsort(0, descending=True)[0].tolist()
