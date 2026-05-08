@@ -62,7 +62,7 @@ st.markdown(
         margin-bottom: 0.65rem;
     }
 
-    .param-card {
+    .param-card, .upload-card {
         border: 1px solid #EAECF0;
         border-radius: 14px;
         padding: 0.75rem 0.9rem;
@@ -87,6 +87,49 @@ st.markdown(
         font-weight: 700;
     }
 
+    .upload-card {
+        background: #FFFFFF;
+    }
+
+    .upload-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.14rem 0.5rem;
+        border-radius: 999px;
+        background: #ECFDF3;
+        color: #067647;
+        font-size: 0.78rem;
+        font-weight: 700;
+        margin-bottom: 0.55rem;
+    }
+
+    .upload-name {
+        color: #101828;
+        font-weight: 700;
+        font-size: 0.92rem;
+        word-break: break-word;
+        margin-bottom: 0.2rem;
+    }
+
+    .upload-meta {
+        color: #667085;
+        font-size: 0.82rem;
+        line-height: 1.35;
+    }
+
+    .upload-hint {
+        color: #667085;
+        font-size: 0.82rem;
+        margin: 0.15rem 0 0.55rem 0;
+    }
+
+    .compact-divider {
+        height: 1px;
+        background: #EAECF0;
+        margin: 0.85rem 0 1rem 0;
+    }
+
     .empty-panel {
         border: 1px dashed #D0D5DD;
         border-radius: 16px;
@@ -103,6 +146,16 @@ st.markdown(
 
     section[data-testid="stSidebar"] .block-container {
         padding-top: 1.25rem;
+    }
+
+    section[data-testid="stSidebar"] [data-testid="stFileUploader"] {
+        margin-bottom: 0.5rem;
+    }
+
+    section[data-testid="stSidebar"] [data-testid="stFileUploaderDropzone"] {
+        padding: 0.85rem;
+        border-radius: 14px;
+        min-height: 108px;
     }
 
     .sidebar-title {
@@ -128,6 +181,55 @@ st.markdown(
 )
 
 
+def rerun_app():
+    if hasattr(st, "rerun"):
+        st.rerun()
+    st.experimental_rerun()
+
+
+def init_upload_state():
+    defaults = {
+        "uploaded_image_bytes": None,
+        "uploaded_image_name": None,
+        "uploaded_image_size": None,
+        "show_upload_box": True,
+        "uploader_version": 0,
+    }
+    for key, value in defaults.items():
+        if key not in st.session_state:
+            st.session_state[key] = value
+
+
+def store_uploaded_file(uploaded_file):
+    data = uploaded_file.getvalue()
+    st.session_state.uploaded_image_bytes = data
+    st.session_state.uploaded_image_name = uploaded_file.name
+    st.session_state.uploaded_image_size = len(data)
+    st.session_state.show_upload_box = False
+    st.session_state.uploader_version += 1
+
+
+def clear_uploaded_file():
+    st.session_state.uploaded_image_bytes = None
+    st.session_state.uploaded_image_name = None
+    st.session_state.uploaded_image_size = None
+    st.session_state.show_upload_box = True
+    st.session_state.uploader_version += 1
+
+
+def readable_size(size_bytes: int | None) -> str:
+    if not size_bytes:
+        return "0 B"
+    units = ["B", "KB", "MB", "GB"]
+    size = float(size_bytes)
+    unit = units[0]
+    for unit in units:
+        if size < 1024 or unit == units[-1]:
+            break
+        size /= 1024
+    return f"{size:.1f} {unit}" if unit != "B" else f"{int(size)} {unit}"
+
+
 @st.cache_resource(show_spinner="正在加载骨龄模型，请稍候...")
 def load_bone_age_model():
     missing = [p for p in [*PART_WEIGHTS, DETECTOR_WEIGHT] if not p.exists()]
@@ -136,8 +238,8 @@ def load_bone_age_model():
     return Bone_Age(PART_WEIGHTS, MODEL_NAMES)
 
 
-def decode_uploaded_image(uploaded_file):
-    file_bytes = np.frombuffer(uploaded_file.getvalue(), dtype=np.uint8)
+def decode_image_bytes(image_bytes: bytes):
+    file_bytes = np.frombuffer(image_bytes, dtype=np.uint8)
     image_bgr = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
     if image_bgr is None:
         raise ValueError("图片解码失败，请上传有效的 png/jpg/jpeg 图像。")
@@ -219,6 +321,57 @@ def render_runtime_params(sex: str, conf_threshold: float, iou_threshold: float)
     )
 
 
+def render_upload_controls():
+    has_upload = st.session_state.uploaded_image_bytes is not None
+
+    if has_upload and not st.session_state.show_upload_box:
+        file_name = st.session_state.uploaded_image_name or "uploaded image"
+        file_size = readable_size(st.session_state.uploaded_image_size)
+
+        st.markdown(
+            f"""
+            <div class="upload-card">
+                <div class="upload-status">✓ 图像已上传</div>
+                <div class="upload-name">{file_name}</div>
+                <div class="upload-meta">文件大小：{file_size}</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+        action_col_1, action_col_2 = st.columns(2)
+        with action_col_1:
+            if st.button("更换图像", use_container_width=True):
+                st.session_state.show_upload_box = True
+                st.session_state.uploader_version += 1
+                rerun_app()
+        with action_col_2:
+            if st.button("清除", use_container_width=True):
+                clear_uploaded_file()
+                rerun_app()
+        return
+
+    st.markdown('<p class="upload-hint">上传 png/jpg/jpeg 格式的单手正位 X 光图。</p>', unsafe_allow_html=True)
+    uploaded_file = st.file_uploader(
+        "上传手部 X 光图像",
+        type=["png", "jpg", "jpeg"],
+        help="支持 png、jpg、jpeg。建议上传单手正位 X 光图。",
+        key=f"upload_widget_{st.session_state.uploader_version}",
+        label_visibility="collapsed",
+    )
+
+    if uploaded_file is not None:
+        store_uploaded_file(uploaded_file)
+        rerun_app()
+
+    if has_upload:
+        if st.button("取消更换", use_container_width=True):
+            st.session_state.show_upload_box = False
+            rerun_app()
+
+
+init_upload_state()
+
 with st.sidebar:
     st.markdown('<div class="sidebar-title">🦴 Bone Age</div>', unsafe_allow_html=True)
     st.markdown(
@@ -226,25 +379,21 @@ with st.sidebar:
         unsafe_allow_html=True,
     )
 
-    uploaded_file = st.file_uploader(
-        "上传手部 X 光图像",
-        type=["png", "jpg", "jpeg"],
-        help="支持 png、jpg、jpeg。建议上传单手正位 X 光图。",
-    )
+    render_upload_controls()
 
-    st.divider()
+    st.markdown('<div class="compact-divider"></div>', unsafe_allow_html=True)
     st.markdown("### 推理参数")
     sex = st.radio("性别", ["boy", "girl"], horizontal=True)
     conf_threshold = st.slider("置信度阈值", 0.2, 1.0, 0.6, 0.01)
     iou_threshold = st.slider("IOU 阈值", 0.0, 1.0, 0.45, 0.01)
 
-    st.divider()
+    st.markdown('<div class="compact-divider"></div>', unsafe_allow_html=True)
     auto_run = st.checkbox("上传后自动推理", value=True)
     run_clicked = st.button(
         "开始推理",
         type="primary",
         use_container_width=True,
-        disabled=uploaded_file is None,
+        disabled=st.session_state.uploaded_image_bytes is None,
     )
 
     st.markdown(
@@ -259,7 +408,10 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-if uploaded_file is None:
+uploaded_image_bytes = st.session_state.uploaded_image_bytes
+uploaded_image_name = st.session_state.uploaded_image_name or "uploaded image"
+
+if uploaded_image_bytes is None:
     st.markdown(
         """
         <div class="empty-panel">
@@ -272,7 +424,7 @@ if uploaded_file is None:
     st.stop()
 
 try:
-    image_cv2 = decode_uploaded_image(uploaded_file)
+    image_cv2 = decode_image_bytes(uploaded_image_bytes)
 except Exception as exc:
     st.error("图片读取失败")
     st.exception(exc)
@@ -283,7 +435,7 @@ image_col, result_col = st.columns([1.05, 1.15], gap="large")
 with image_col:
     with st.container(border=True):
         st.markdown('<div class="section-title">图像预览</div>', unsafe_allow_html=True)
-        st.image(image_cv2, caption=uploaded_file.name, use_column_width=True)
+        st.image(image_cv2, caption=uploaded_image_name, use_column_width=True)
 
 with result_col:
     with st.container(border=True):
