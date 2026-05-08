@@ -1,20 +1,30 @@
+ipython==8.12.3
 
-ipython  # interactive notebook
-matplotlib>=3.2.2
-numpy>=1.18.5
-# opencv-python
-opencv-python-headless
-Pillow>=7.1.2
-psutil  # system resources
-thop>=0.1.1  # FLOPs computation
-torch>=1.13.0  # see https://pytorch.org/get-started/locally (recommended)
-torchvision>=0.12.1
-tqdm>=4.64.0
+matplotlib==3.7.5
+numpy==1.23.5
+opencv-python-headless==4.8.1.78
+Pillow==9.5.0
+psutil==5.9.8
+thop==0.1.1.post2209072238
 
-tensorboard>=2.4.1
+torch==1.13.0
+torchvision==0.14.0
 
-pandas>=1.1.4
-seaborn>=0.11.0
-streamlit
-albumentations>=1.0.3
+tqdm==4.64.1
+tensorboard==2.12.3
 
+pandas==1.5.3
+seaborn==0.12.2
+streamlit==1.29.0
+albumentations==1.3.1
+
+PyYAML==6.0.1
+scipy==1.10.1
+scikit-image==0.21.0
+scikit-learn==1.3.2
+qudida==0.0.4
+
+# Compatibility pins for legacy YOLOv5 utilities.
+packaging==23.2
+setuptools==69.5.1
+wheel==0.43.0
