@@ -1,20 +1,11 @@
-
-ipython  # interactive notebook
-matplotlib==3.2.2
-numpy==1.18.5
-# opencv-python
-opencv-python-headless
-Pillow==7.1.2
-psutil  # system resources
-thop==0.1.1  # FLOPs computation
-torch==1.13.0  # see https://pytorch.org/get-started/locally (recommended)
-torchvision==0.12.1
-tqdm==4.64.0
-
-tensorboard>=2.4.1
-
-pandas==1.1.4
-seaborn==0.11.0
-streamlit
-albumentations==1.0.3
-
+torch==1.13.0
+torchvision==0.14.0
+numpy==1.23.5
+streamlit==1.29.0
+opencv-python-headless==4.8.1.78
+matplotlib==3.7.5
+Pillow==9.5.0
+pandas==1.5.3
+seaborn==0.12.2
+albumentations==1.3.1
+tensorboard==2.12.3
