@@ -384,7 +384,7 @@ with st.sidebar:
     st.markdown('<div class="compact-divider"></div>', unsafe_allow_html=True)
     st.markdown("### 推理参数")
     sex = st.radio("性别", ["boy", "girl"], horizontal=True)
-    conf_threshold = st.slider("置信度阈值", 0.2, 1.0, 0.6, 0.01)
+    conf_threshold = st.slider("置信度阈值", 0.2, 1.0, 0.4, 0.01)
     iou_threshold = st.slider("IOU 阈值", 0.0, 1.0, 0.45, 0.01)
 
     st.markdown('<div class="compact-divider"></div>', unsafe_allow_html=True)
