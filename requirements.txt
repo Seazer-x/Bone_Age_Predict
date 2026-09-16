@@ -10,7 +10,7 @@ thop==0.1.1.post2209072238
 torch==1.13.0
 torchvision==0.14.0
 
-tqdm==4.64.1
+tqdm==4.70.1
 tensorboard==2.12.3
 
 pandas==1.5.3
