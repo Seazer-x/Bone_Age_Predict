@@ -26,5 +26,5 @@ qudida==0.0.4
 
 # Compatibility pins for legacy YOLOv5 utilities.
 packaging==23.2
-setuptools==69.5.1
+setuptools==84.0.0
 wheel==0.43.0
