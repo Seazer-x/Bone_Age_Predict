@@ -1,0 +1,19 @@
+name: Feature request
+description: Suggest an improvement
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or motivation
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact on users, reproducibility, or maintenance
