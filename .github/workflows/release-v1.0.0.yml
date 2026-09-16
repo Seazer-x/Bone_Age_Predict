@@ -1,0 +1,31 @@
+name: Publish v1.0.0
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create v1.0.0 release if missing
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TARGET_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          if gh release view v1.0.0 --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "v1.0.0 already exists; nothing to do."
+            exit 0
+          fi
+
+          gh release create v1.0.0 \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$TARGET_SHA" \
+            --title "v1.0.0" \
+            --notes "First formal open-source release of Bone_Age_Predict.\n\nHighlights:\n- YOLOv5 + RUS-CHN bone-age inference pipeline\n- Streamlit demo application\n- GPL-3.0 licensing and third-party notices\n- Model card, security and contribution policies\n- Lightweight CI and regression tests\n\nResearch and educational use only; not a medical device or a substitute for clinical judgment."
