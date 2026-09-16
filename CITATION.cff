@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: Cite this software if used in research or teaching.
+title: Bone_Age_Predict
+type: software
+authors:
+  - name: Seazer-x
+repository-code: https://github.com/Seazer-x/Bone_Age_Predict
+license: GPL-3.0-only
+keywords:
+  - bone age
+  - RUS-CHN
+  - YOLOv5
