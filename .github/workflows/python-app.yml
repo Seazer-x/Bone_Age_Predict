@@ -21,6 +21,7 @@ jobs:
             models
             utils
             export.py
+            evaluation
             tests
           sparse-checkout-cone-mode: false
 
