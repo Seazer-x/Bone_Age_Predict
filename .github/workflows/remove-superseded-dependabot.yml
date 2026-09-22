@@ -1,0 +1,21 @@
+name: Remove superseded Dependabot branch
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/remove-superseded-dependabot.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPO: ${{ github.repository }}
+    steps:
+      - name: Delete superseded branch
+        run: |
+          gh api --method DELETE "repos/$REPO/git/refs/heads/dependabot%2Fpip%2Fpillow-12.2.0" || true
