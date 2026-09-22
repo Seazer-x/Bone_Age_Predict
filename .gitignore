@@ -5,3 +5,5 @@
 /dataSources.local.xml
 *.pyc
 .idea
+# Local evaluation outputs
+evaluation/results/
