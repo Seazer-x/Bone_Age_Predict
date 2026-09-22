@@ -1,5 +1,8 @@
 # Bone_Age_Predict
 
+[![🤗 在线 Demo](https://img.shields.io/badge/🤗_在线_Demo-Hugging_Face-FFD21E?style=for-the-badge)](https://huggingface.co/spaces/Cypressking/Bone_Age_Predict)
+[![Open in Colab](https://img.shields.io/badge/Open_in_Colab-F9AB00?style=for-the-badge&logo=googlecolab&logoColor=white)](https://colab.research.google.com/github/Seazer-x/Bone_Age_Predict/blob/main/notebooks/Bone_Age_Predict_Demo.ipynb)
+
 [![CI](https://github.com/Seazer-x/Bone_Age_Predict/actions/workflows/python-app.yml/badge.svg)](https://github.com/Seazer-x/Bone_Age_Predict/actions/workflows/python-app.yml)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.10-3776AB.svg)](https://www.python.org/)
@@ -110,6 +113,9 @@ Bone_Age_Predict/
 ├── utils/                      # YOLOv5 工具代码（含上游 GPL-3.0 声明）
 ├── export.py                   # YOLOv5 导出代码
 ├── tests/                      # 轻量回归测试
+├── evaluation/                 # 可复现评估工具
+├── notebooks/                  # Colab 示例
+├── hf-space/                   # Hugging Face ZeroGPU 前端
 ├── docs/MODEL_CARD.md          # 模型用途、限制与风险说明
 ├── THIRD_PARTY_NOTICES.md      # 第三方来源与许可证说明
 ├── CONTRIBUTING.md             # 贡献指南
@@ -140,12 +146,25 @@ Bone_Age_Predict/
 
 更多限制见 [Model Card](docs/MODEL_CARD.md)。
 
+## 可复现评估
+
+仓库提供真实模型推理的评估脚本，可对带有 `image,sex,age_years` 标注的 CSV 数据集计算 MAE、RMSE、中位绝对误差、平均偏差、±0.5/±1.0 年命中率以及 MAE 的 bootstrap 95% 置信区间：
+
+```bash
+python evaluation/evaluate_dataset.py \
+  --manifest /path/to/manifest.csv \
+  --output-dir evaluation/results \
+  --device 0
+```
+
+详细协议见 [evaluation/README.md](evaluation/README.md)。当前仓库**没有**捆绑独立临床验证数据集，因此不会虚构或宣称临床性能指标。
+
 ## 开发与测试
 
 本仓库 CI 不下载数百 MB 的模型权重，而是执行可快速复现的代码质量检查：
 
 ```bash
-python -m compileall -q Bone-pre.py bone_age/bone_age.py models utils export.py tests
+python -m compileall -q Bone-pre.py bone_age/bone_age.py models utils export.py evaluation tests
 python -m pytest -q
 ```
 
