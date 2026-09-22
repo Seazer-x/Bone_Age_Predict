@@ -1,0 +1,25 @@
+name: Final branch cleanup
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/final-branch-cleanup.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPO: ${{ github.repository }}
+    steps:
+      - name: Delete closed Dependabot branches
+        run: |
+          set -euo pipefail
+          for ref in             "dependabot%2Fpip%2Fseaborn-0.13.2"             "dependabot%2Fpip%2Ftqdm-4.70.1"
+          do
+            gh api --method DELETE "repos/$REPO/git/refs/heads/$ref" || true
+          done
