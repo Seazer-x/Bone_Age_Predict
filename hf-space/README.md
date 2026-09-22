@@ -21,4 +21,4 @@ https://github.com/Seazer-x/Bone_Age_Predict
 
 Model weights are downloaded from the tagged GitHub release at startup so they do not need to be duplicated in this Space repository.
 
-> Research and educational use only. Not a medical device.
+The demo includes the existing public repository sample image as a one-click example.\n\n> Research and educational use only. Not a medical device.
