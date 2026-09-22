@@ -6,6 +6,7 @@ on:
     branches: [main]
     paths:
       - "hf-space/**"
+      - "images/**"
       - "bone_age/bone_age.py"
       - "models/**"
       - "utils/**"
@@ -22,6 +23,7 @@ jobs:
         with:
           sparse-checkout: |
             hf-space
+            images/1778216012401.jpg
             bone_age/bone_age.py
             models
             utils
@@ -38,10 +40,11 @@ jobs:
       - name: Prepare Space source
         run: |
           rm -rf .hf-space-staging
-          mkdir -p .hf-space-staging/bone_age
+          mkdir -p .hf-space-staging/bone_age .hf-space-staging/examples
           cp hf-space/README.md .hf-space-staging/README.md
           cp hf-space/app.py .hf-space-staging/app.py
           cp hf-space/requirements.txt .hf-space-staging/requirements.txt
+          cp images/1778216012401.jpg .hf-space-staging/examples/1778216012401.jpg
           cp bone_age/bone_age.py .hf-space-staging/bone_age/bone_age.py
           touch .hf-space-staging/bone_age/__init__.py
           cp -R models .hf-space-staging/models
