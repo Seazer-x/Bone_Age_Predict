@@ -2,6 +2,14 @@ name: Deploy Hugging Face Space
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "hf-space/**"
+      - "bone_age/bone_age.py"
+      - "models/**"
+      - "utils/**"
+      - ".github/workflows/deploy-huggingface-space.yml"
 
 permissions:
   contents: read
@@ -19,7 +27,19 @@ jobs:
       - name: Install Hugging Face Hub client
         run: python -m pip install --upgrade huggingface_hub
 
-      - name: Create or update Space
+      - name: Prepare Space source
+        run: |
+          rm -rf .hf-space-staging
+          mkdir -p .hf-space-staging/bone_age
+          cp hf-space/README.md .hf-space-staging/README.md
+          cp hf-space/app.py .hf-space-staging/app.py
+          cp hf-space/requirements.txt .hf-space-staging/requirements.txt
+          cp bone_age/bone_age.py .hf-space-staging/bone_age/bone_age.py
+          touch .hf-space-staging/bone_age/__init__.py
+          cp -R models .hf-space-staging/models
+          cp -R utils .hf-space-staging/utils
+
+      - name: Create or update ZeroGPU Space
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
@@ -35,19 +55,30 @@ jobs:
           api.create_repo(
               repo_id=repo_id,
               repo_type="space",
-              space_sdk="docker",
+              space_sdk="gradio",
+              space_hardware="zero-a10g",
               private=False,
               exist_ok=True,
+              token=token,
+          )
+
+          api.request_space_hardware(
+              repo_id=repo_id,
+              hardware="zero-a10g",
               token=token,
           )
 
           api.upload_folder(
               repo_id=repo_id,
               repo_type="space",
-              folder_path="hf-space",
+              folder_path=".hf-space-staging",
               token=token,
-              commit_message="Deploy Bone_Age_Predict from GitHub",
+              commit_message="Deploy Bone_Age_Predict ZeroGPU demo from GitHub",
           )
 
+          runtime = api.get_space_runtime(repo_id=repo_id, token=token)
           print(f"Space: https://huggingface.co/spaces/{repo_id}")
+          print(f"Stage: {runtime.stage}")
+          print(f"Hardware: {runtime.hardware}")
+          print(f"Requested hardware: {runtime.requested_hardware}")
           PY
