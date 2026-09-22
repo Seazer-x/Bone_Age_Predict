@@ -4,11 +4,11 @@
 
 ### Added
 
-- Open source project documentation.
+- Project documentation and usage guidance.
 - License and third-party notices.
 - Contributor and security policies.
 - Model card and citation metadata.
 
 ### Changed
 
-- Improved repository readiness for external contributors and automated checks.
+- Improved documentation, contribution workflows, and automated checks.
