@@ -1,6 +1,7 @@
 # 🦴 Bone_Age_Predict
 
 [![🤗 Live Demo](https://img.shields.io/badge/🤗_Live_Demo-Open_on_Hugging_Face-FFD21E?style=for-the-badge)](https://huggingface.co/spaces/Cypressking/Bone_Age_Predict)
+[![Open in Colab](https://img.shields.io/badge/Open_in_Colab-F9AB00?style=for-the-badge&logo=googlecolab&logoColor=white)](https://colab.research.google.com/github/Seazer-x/Bone_Age_Predict/blob/main/notebooks/Bone_Age_Predict_Demo.ipynb)
 
 [![CI](https://github.com/Seazer-x/Bone_Age_Predict/actions/workflows/python-app.yml/badge.svg)](https://github.com/Seazer-x/Bone_Age_Predict/actions/workflows/python-app.yml)
 [![Release](https://img.shields.io/github/v/release/Seazer-x/Bone_Age_Predict)](https://github.com/Seazer-x/Bone_Age_Predict/releases/tag/v1.0.0)
@@ -11,7 +12,7 @@ Open-source **YOLOv5 + RUS-CHN bone age estimation** from hand X-ray images, wit
 
 **👉 [Try the live demo on Hugging Face](https://huggingface.co/spaces/Cypressking/Bone_Age_Predict)**
 
-[中文说明](README.zh-CN.md) · [v1.0.0](https://github.com/Seazer-x/Bone_Age_Predict/releases/tag/v1.0.0) · [Model Card](docs/MODEL_CARD.md) · [Contributing](CONTRIBUTING.md)
+[中文说明](README.zh-CN.md) · [v1.0.0](https://github.com/Seazer-x/Bone_Age_Predict/releases/tag/v1.0.0) · [Evaluation](evaluation/README.md) · [Model Card](docs/MODEL_CARD.md) · [Contributing](CONTRIBUTING.md)
 
 > [!IMPORTANT]
 > **Research and educational use only.** This project is not a medical device and has not been clinically validated for diagnosis or treatment decisions.
@@ -90,7 +91,9 @@ Upload a frontal single-hand X-ray image, select the scoring sex input used by t
 
 The hosted demo uses **Gradio + Hugging Face ZeroGPU**. Space-specific files live in [`hf-space/`](hf-space/), while the core inference code remains shared with this repository.
 
-The deployment workflow at [`.github/workflows/deploy-huggingface-space.yml`](.github/workflows/deploy-huggingface-space.yml) creates or updates the ZeroGPU Space using the `HF_TOKEN` GitHub Actions secret. Model weights are downloaded from the tagged `v1.0.0` release at Space startup instead of being duplicated in the Space repository.
+The Space includes a one-click sample X-ray from this repository. Model weights remain sourced from the tagged `v1.0.0` GitHub release; the Space downloads missing files concurrently into a local cache, validates expected file sizes, retries transient HTTP failures, and reuses valid cached files.
+
+The deployment workflow at [`.github/workflows/deploy-huggingface-space.yml`](.github/workflows/deploy-huggingface-space.yml) creates or updates the ZeroGPU Space using the `HF_TOKEN` GitHub Actions secret.
 
 ## Repository layout
 
@@ -104,17 +107,30 @@ Bone_Age_Predict/
 ├── models/
 ├── utils/
 ├── tests/
+├── evaluation/
+├── notebooks/
 ├── hf-space/
 ├── docs/MODEL_CARD.md
 ├── THIRD_PARTY_NOTICES.md
 └── LICENSE
 ```
 
-## Evaluation and limitations
+## Reproducible evaluation
 
-The repository currently does **not** publish a reproducible clinical validation benchmark across hospitals, scanners, age groups, or acquisition protocols. Do not interpret the demo output as a validated clinical measurement.
+The repository includes an evaluation runner for labeled hand X-ray datasets:
 
-See [Model Card](docs/MODEL_CARD.md) for intended use, known limitations, and risk notes.
+```bash
+python evaluation/evaluate_dataset.py \
+  --manifest /path/to/manifest.csv \
+  --output-dir evaluation/results \
+  --device 0
+```
+
+It reports per-sample predictions plus MAE, RMSE, median absolute error, mean bias, ±0.5/±1.0 year hit rates, deterministic bootstrap 95% CI for MAE, and sex-stratified summaries.
+
+See [evaluation/README.md](evaluation/README.md) for the manifest format and reporting protocol.
+
+The repository still does **not** claim a clinical benchmark result because no independently documented evaluation dataset is bundled here. Do not interpret the demo output as a validated clinical measurement. See [Model Card](docs/MODEL_CARD.md) for intended use and limitations.
 
 ## Data, models, and attribution
 
@@ -139,7 +155,7 @@ See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 Fast checks:
 
 ```bash
-python -m compileall -q Bone-pre.py bone_age/bone_age.py models utils export.py tests
+python -m compileall -q Bone-pre.py bone_age/bone_age.py models utils export.py evaluation tests
 python -m pytest -q
 ```
 
