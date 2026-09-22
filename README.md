@@ -84,9 +84,9 @@ Upload a frontal single-hand X-ray image, select the scoring sex input used by t
 
 ## Hugging Face Space
 
-A minimal Docker Space wrapper is provided in [`hf-space/`](hf-space/). It builds a stable demo from the GitHub `v1.0.0` release instead of copying the ~500 MB model weights into the Space repository.
+The hosted demo uses **Gradio + Hugging Face ZeroGPU**. Space-specific files live in [`hf-space/`](hf-space/), while the core inference code remains shared with this repository.
 
-A manual deployment workflow is included at [`.github/workflows/deploy-huggingface-space.yml`](.github/workflows/deploy-huggingface-space.yml). It requires a GitHub Actions secret named `HF_TOKEN`.
+The deployment workflow at [`.github/workflows/deploy-huggingface-space.yml`](.github/workflows/deploy-huggingface-space.yml) creates or updates the ZeroGPU Space using the `HF_TOKEN` GitHub Actions secret. Model weights are downloaded from the tagged `v1.0.0` release at Space startup instead of being duplicated in the Space repository.
 
 ## Repository layout
 
