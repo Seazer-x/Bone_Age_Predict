@@ -1,11 +1,15 @@
 # 🦴 Bone_Age_Predict
 
+[![🤗 Live Demo](https://img.shields.io/badge/🤗_Live_Demo-Open_on_Hugging_Face-FFD21E?style=for-the-badge)](https://huggingface.co/spaces/Cypressking/Bone_Age_Predict)
+
 [![CI](https://github.com/Seazer-x/Bone_Age_Predict/actions/workflows/python-app.yml/badge.svg)](https://github.com/Seazer-x/Bone_Age_Predict/actions/workflows/python-app.yml)
 [![Release](https://img.shields.io/github/v/release/Seazer-x/Bone_Age_Predict)](https://github.com/Seazer-x/Bone_Age_Predict/releases/tag/v1.0.0)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.10-3776AB.svg)](https://www.python.org/)
 
-Open-source **YOLOv5 + RUS-CHN bone age estimation** from hand X-ray images, with a Streamlit demo for research, teaching, and reproducible experimentation.
+Open-source **YOLOv5 + RUS-CHN bone age estimation** from hand X-ray images, with a local Streamlit app and a hosted Gradio + ZeroGPU demo for research, teaching, and reproducible experimentation.
+
+**👉 [Try the live demo on Hugging Face](https://huggingface.co/spaces/Cypressking/Bone_Age_Predict)**
 
 [中文说明](README.zh-CN.md) · [v1.0.0](https://github.com/Seazer-x/Bone_Age_Predict/releases/tag/v1.0.0) · [Model Card](docs/MODEL_CARD.md) · [Contributing](CONTRIBUTING.md)
 
