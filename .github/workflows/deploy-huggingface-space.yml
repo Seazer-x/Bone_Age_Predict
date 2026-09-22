@@ -19,6 +19,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          sparse-checkout: |
+            hf-space
+            bone_age/bone_age.py
+            models
+            utils
+            .github/workflows/deploy-huggingface-space.yml
+          sparse-checkout-cone-mode: false
 
       - uses: actions/setup-python@v5
         with:
@@ -45,6 +53,7 @@ jobs:
         run: |
           python - <<'PY'
           import os
+          import time
           from huggingface_hub import HfApi
 
           token = os.environ["HF_TOKEN"]
@@ -76,9 +85,24 @@ jobs:
               commit_message="Deploy Bone_Age_Predict ZeroGPU demo from GitHub",
           )
 
-          runtime = api.get_space_runtime(repo_id=repo_id, token=token)
           print(f"Space: https://huggingface.co/spaces/{repo_id}")
-          print(f"Stage: {runtime.stage}")
-          print(f"Hardware: {runtime.hardware}")
-          print(f"Requested hardware: {runtime.requested_hardware}")
+
+          deadline = time.time() + 900
+          while time.time() < deadline:
+              runtime = api.get_space_runtime(repo_id=repo_id, token=token)
+              stage = str(runtime.stage)
+              print(
+                  f"Stage={stage} hardware={runtime.hardware} "
+                  f"requested={runtime.requested_hardware}"
+              )
+
+              if stage == "RUNNING":
+                  print("ZeroGPU Space is running.")
+                  break
+              if "ERROR" in stage:
+                  raise RuntimeError(f"Hugging Face Space failed with stage: {stage}")
+
+              time.sleep(15)
+          else:
+              raise TimeoutError("Timed out waiting for Hugging Face Space to reach RUNNING.")
           PY
