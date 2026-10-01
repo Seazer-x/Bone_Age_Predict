@@ -1,5 +1,5 @@
 gradio>=5,<7
-spaces>=0.51.1
+spaces>=0.51.3
 # Keep the matched PyTorch pair supported by ZeroGPU.
 torch==2.8.0
 torchvision==0.23.0
