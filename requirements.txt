@@ -26,6 +26,6 @@ scikit-learn==1.3.2
 qudida==0.0.4
 
 # Compatibility pins for legacy YOLOv5 utilities.
-packaging==24.1
+packaging==24.2
 setuptools==69.5.1
 wheel==0.48.0
