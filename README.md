@@ -159,7 +159,22 @@ python -m compileall -q Bone-pre.py bone_age/bone_age.py models utils export.py 
 python -m pytest -q
 ```
 
-The CI intentionally avoids downloading model weights and focuses on source validation and lightweight regression tests.
+CI keeps the fast source and regression checks, and also installs the complete
+local and Space requirements in separate Python 3.10 jobs. Each job runs
+`pip check`, project imports, NumPy/Torch conversion, torchvision NMS, and
+image preprocessing. The local job additionally exercises Albumentations,
+TensorBoard, and the Streamlit image API; the Space job builds Gradio components.
+These checks use CPU and avoid downloading model weights. Hosted ZeroGPU startup
+is verified separately by the deployment workflow.
+
+To run the dependency smoke check after installing the corresponding requirements:
+
+```bash
+python -m pip check
+python tests/smoke_environment.py --target local
+# In a separate environment with hf-space/requirements.txt:
+python tests/smoke_environment.py --target space
+```
 
 ## Contributing
 

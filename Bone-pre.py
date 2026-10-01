@@ -435,7 +435,7 @@ image_col, result_col = st.columns([1.05, 1.15], gap="large")
 with image_col:
     with st.container(border=True):
         st.markdown('<div class="section-title">图像预览</div>', unsafe_allow_html=True)
-        st.image(image_cv2, caption=uploaded_image_name, use_column_width=True)
+        st.image(image_cv2, caption=uploaded_image_name, width="stretch")
 
 with result_col:
     with st.container(border=True):
