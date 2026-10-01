@@ -22,6 +22,17 @@ updates:
         versions: [">=1.14"]
       - dependency-name: "torchvision"
         versions: [">=0.15"]
+      # Python 3.10 / NumPy 1.x; skimage also shares the legacy SciPy/Pillow pins.
+      - dependency-name: "matplotlib"
+        versions: [">=3.11"]
+      - dependency-name: "scipy"
+        versions: [">=1.16"]
+      - dependency-name: "scikit-image"
+        versions: [">=0.25"]
+      - dependency-name: "scikit-learn"
+        versions: [">=1.8"]
+      - dependency-name: "opencv-python-headless"
+        versions: [">=4.12"]
 
   - package-ecosystem: pip
     directory: "/hf-space"
@@ -42,3 +53,10 @@ updates:
         versions: [">=2.9"]
       - dependency-name: "torchvision"
         versions: [">=0.24"]
+      # Python 3.10 and the NumPy 1.x ABI used by the shared model code.
+      - dependency-name: "matplotlib"
+        versions: [">=3.11"]
+      - dependency-name: "scipy"
+        versions: [">=1.16"]
+      - dependency-name: "opencv-python-headless"
+        versions: [">=4.12"]
