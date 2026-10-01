@@ -1,14 +1,15 @@
 gradio>=5,<7
 spaces>=0.51.1
-torch==1.13.1
-torchvision==0.29.0
+# Keep the matched PyTorch pair supported by ZeroGPU.
+torch==2.8.0
+torchvision==0.23.0
 numpy==1.26.4
-opencv-python-headless==4.14.0.94
+opencv-python-headless==4.10.0.84
 Pillow==10.4.0
-matplotlib==3.11.2
+matplotlib==3.9.2
 pandas==2.2.3
 PyYAML==6.0.3
-scipy==1.18.1
+scipy==1.14.1
 seaborn==0.13.2
 ipython==8.39.0
 psutil==6.0.0
