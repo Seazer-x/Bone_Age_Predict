@@ -52,8 +52,6 @@ jobs:
             requirements: hf-space/requirements.txt
     env:
       YOLOv5_AUTOINSTALL: 'false'
-      YOLOV5_CONFIG_DIR: ${{ runner.temp }}/yolov5
-      MPLCONFIGDIR: ${{ runner.temp }}/matplotlib
       NO_ALBUMENTATIONS_UPDATE: '1'
       GRADIO_ANALYTICS_ENABLED: 'False'
     steps:
@@ -84,6 +82,9 @@ jobs:
         run: python -m pip check
 
       - name: Import and runtime smoke checks (CPU, no weights)
+        env:
+          YOLOV5_CONFIG_DIR: ${{ runner.temp }}/yolov5
+          MPLCONFIGDIR: ${{ runner.temp }}/matplotlib
         run: python tests/smoke_environment.py --target "${{ matrix.target }}"
 
       - name: Regression tests
