@@ -1,4 +1,4 @@
-gradio>=5,<7
+gradio>=6.28.0,<7
 spaces>=0.51.1
 # Keep the matched PyTorch pair supported by ZeroGPU.
 torch==2.8.0
