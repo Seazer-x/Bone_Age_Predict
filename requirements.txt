@@ -16,7 +16,7 @@ tensorboard==2.21.0
 
 pandas==1.5.3
 seaborn==0.13.2
-streamlit==1.66.1
+streamlit==1.65.0
 albumentations==1.4.24
 
 PyYAML==6.0.3
